@@ -1,3 +1,6 @@
+import logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger()
 from mass_flask_core.models import Sample, AnalysisSystem, AnalysisRequest
 from mass_flask_core.utils.tag_parser import TagParser
 
@@ -12,6 +15,9 @@ def _match_sample_and_system(sample, system):
     if not _filter_matches_tags(sample.tags, system.tag_filter_expression):
         return
     analysis_request = AnalysisRequest(sample=sample, analysis_system=system)
+    
+    logging.error(f"DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG New analysis request for {sample} on {system} DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG")
+
     analysis_request.save()
     sample.dispatched_to.append(system)
     sample.save()
@@ -19,7 +25,7 @@ def _match_sample_and_system(sample, system):
 
 def update_dispatch_request_for_sample(sender, document, **kwargs):
     for system in AnalysisSystem.objects():
-        _match_sample_and_system(document, system)
+        _match_sample_and_system(document.sample, system)
 
 
 def update_dispatch_request_for_new_sample(sender, document, **kwargs):
