@@ -17,6 +17,11 @@ def _match_sample_and_system(sample, system):
     sample.save()
 
 
+def update_dispatch_request_for_sample(sender, document, **kwargs):
+    for system in AnalysisSystem.objects():
+        _match_sample_and_system(document, system)
+
+
 def update_dispatch_request_for_new_sample(sender, document, **kwargs):
     if not issubclass(sender, Sample):
         return
