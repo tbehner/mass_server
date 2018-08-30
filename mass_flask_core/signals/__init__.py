@@ -1,5 +1,5 @@
 from mongoengine import signals
-from mass_flask_core.models import AnalysisSystem, Report
+from mass_flask_core.models import AnalysisSystem, Report, Sample
 from .dispatch_request import update_dispatch_request_for_new_sample, create_requests_for_new_analysis_system, update_dispatch_request_for_sample
 from .copy_report_tags import copy_tags_from_report_to_sample
 
