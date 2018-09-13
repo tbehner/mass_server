@@ -24,9 +24,13 @@ def _match_sample_and_system(sample, system):
 
 
 def update_dispatch_request_for_sample(sender, document, **kwargs):
+    if not issubclass(sender, Sample):
+        return
+
+    logging.warn(f"Document: {document}")
+    logging.warn(f"Additional arguments: {kwargs}")
     for system in AnalysisSystem.objects():
-        logging.error(f"DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG Report: {document}\nDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG Sample: {document.sample}\n")
-        _match_sample_and_system(document.sample, system)
+        _match_sample_and_system(document, system)
 
 
 def update_dispatch_request_for_new_sample(sender, document, **kwargs):
